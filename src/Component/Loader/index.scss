@@ -1,0 +1,57 @@
+.Loader
+{
+    width: 100%;
+    background-color: white;
+    z-index: 10;
+    display: flex;
+
+    &::before
+    {
+        content: '';
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        z-index: 100;
+    }
+
+    .spinner
+    {
+        width: 20px;
+        height: 20px;
+        margin: auto;
+        border-radius: 100%;
+        background: linear-gradient(lightgrey, black);
+        padding: 10px;
+
+        animation-name: spinner;
+        animation-iteration-count: infinite;
+        animation-fill-mode: forwards;
+        animation-timing-function: linear;
+        animation-duration: 1s;
+
+        &::after
+        {
+            content: '';
+            width: inherit;
+            height: inherit;
+            border-radius: 100%;
+            background-color: white;
+            position: absolute;
+            margin-left: -10px;
+        }
+    }
+}
+
+@keyframes spinner {
+    from
+    {
+        transform: rotateZ(0turn);
+    }
+    to
+    {
+        transform: rotateZ(1turn);
+    }
+}

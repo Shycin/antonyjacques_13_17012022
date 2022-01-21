@@ -6,6 +6,7 @@ export function fetchAPI({url = 'http://localhost', method = "POST" , data = {}}
         const myHeaders = new Headers()
             myHeaders.append('Content-Type', 'application/json')
             myHeaders.append('Cookie', 'cxssh_status=off')
+            myHeaders.append('Authorization', data.token )
 
         const json = JSON.stringify(data)
 
@@ -38,7 +39,9 @@ export function fetchAPI({url = 'http://localhost', method = "POST" , data = {}}
                 }  
             })
             .then((response) => {
-                resolve({ token: response.body.token })
+                setTimeout(function(){
+                    resolve({ token: response.body.token })
+                },2000)
             })
         .catch((error) => {
             reject(error)

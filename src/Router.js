@@ -10,6 +10,7 @@ export default class RouteList extends React.Component {
                 <Switch>
                     <Route exact path="/" children={ <Home /> } />
                     <Route exact path="/login" children={ <Login /> } />
+                    <Route exact path="*" children={ <Home /> } />
                 </Switch>
             </Router>
         )

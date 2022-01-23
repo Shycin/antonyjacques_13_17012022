@@ -15,7 +15,7 @@ export default function Nav() {
     
     const Login = useSelector(Token);
     const profile = useSelector(Profile);
-    
+
     return (
         <nav className="main-nav">
             <Link to="/" className="main-nav-logo">

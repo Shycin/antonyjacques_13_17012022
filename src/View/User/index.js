@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from '../Nav'
@@ -13,8 +13,6 @@ import checkToken from '../../services/CheckToken'
 
 export default function User() {  
 
-    const [ toggleEditName, setToggleEditName ] = useState(false)
-
     const dispatch = useDispatch();
     const token = useSelector(Token);
 
@@ -23,9 +21,13 @@ export default function User() {
 
     checkToken({redirect: '/login', trigger: false})
 
-    const editName = function() {
+    const [ toggleEditName, setToggleEditName ] = useState(false)
+    const [ name, setName] = useState({firstName: null, lastName: null})
 
-    }
+    useEffect(() => {
+        if(User)
+        setName(name => ({...name, firstName:User.firstName, lastName: User.lastName}))
+    }, [User])
 
     return (
         <div className="App">
@@ -45,15 +47,15 @@ export default function User() {
                             <div className='edition-flex-column'>
                                 <div className='edition-flex'>
                                     <div>
-                                        <input type='text' placeholder={User ? User.firstName : ''}/>
+                                        <input type='text' placeholder={User ? User.firstName : ''} onChange={(e) => setName(name => ({...name, firstName: e.target.value})) }/>
                                     </div>
                                     <div>
-                                        <input type='text' placeholder={User ? User.lastName : ''}/>
+                                        <input type='text' placeholder={User ? User.lastName : ''} onChange={(e) => setName(name => ({...name, lastName: e.target.value})) }/>
                                     </div>
                                 </div>
                                 <div className='edition-flex'>
                                     <div>
-                                        <button className="modification-button" onClick={() => dispatch(modificationAsync({token: token,lastName: "Jacques", firstName: "Antony"}))}>Save</button>
+                                        <button className="modification-button" onClick={() => dispatch(modificationAsync({token: token,lastName: name.lastName, firstName: name.firstName}))}>Save</button>
                                     </div>
                                     <div>
                                         <button className="modification-button" onClick={() => setToggleEditName(false)}>Cancel</button>

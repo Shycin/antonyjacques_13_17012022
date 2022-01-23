@@ -119,12 +119,19 @@ export const authentificationSlice = createSlice({
 
         .addCase(modificationAsync.pending, (state) => {
             console.log('modif pending')
+
+            state.status = Status.WAIT
         })
         .addCase(modificationAsync.fulfilled, (state, action) => {
             console.log('modif fulfilled', action)
+
+            state.status = Status.IDLE
+            state.profile = action.payload.profile
         })
         .addCase(modificationAsync.rejected, (state, action) => {
             console.log('modif rejected', action)
+
+            state.status = Status.IDLE
         })
     },
 });

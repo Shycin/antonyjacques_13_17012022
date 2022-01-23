@@ -62,6 +62,15 @@ export const authentificationSlice = createSlice({
         },
         tokenIsInvalid: (state) => {
             state.tokenIsValid = false
+        },
+        logout: (state) => {
+            state.token =  null
+            state.error =  null
+            state.status =  Status.IDLE
+
+            state.tokenIsValid =  null
+
+            state.profile =  null
         }
         /*verifToken: (state, action) => {
             const tokenVerif = action.payload.token
@@ -136,7 +145,7 @@ export const authentificationSlice = createSlice({
     },
 });
 
-export const { tokenIsInvalid, tokenCheckValidity } = authentificationSlice.actions;
+export const { logout, tokenIsInvalid, tokenCheckValidity } = authentificationSlice.actions;
 
 export const errorLogin = (state) => state.authentification.error;
 export const Loading = (state) => state.authentification.status;

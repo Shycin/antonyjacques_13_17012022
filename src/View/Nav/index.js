@@ -1,18 +1,20 @@
 import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle,faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 import './index.css';
 import logo from '../img/argentBankLogo.png'
 
-import { Token, Profile } from '../../features/authentification/authentificationSlice';
+import { logout, Token, Profile } from '../../features/authentification/authentificationSlice';
 
 
 
 export default function Nav() {
     
+    const dispatch = useDispatch()
+
     const Login = useSelector(Token);
     const profile = useSelector(Profile);
 
@@ -37,7 +39,7 @@ export default function Nav() {
                 }
                 {
                     Login 
-                    ? <Link to="/" className="main-nav-item">
+                    ? <Link to="/" className="main-nav-item" onClick={() => dispatch(logout())}>
                         <FontAwesomeIcon icon={faSignOutAlt} />
                         Sign Out
                     </Link>

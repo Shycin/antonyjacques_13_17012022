@@ -7,7 +7,10 @@ const initialState = {
     token: null,
     error: null,
     status: Status.IDLE,
-    redirect: null
+
+    tokenIsValid: null,
+
+    profile: null
 };
 
 
@@ -23,6 +26,7 @@ export const authentificationAsync = createAsyncThunk(
 export const tokenVerifAsync = createAsyncThunk(
     'tokenVerif/fetchAPI',
     async (data) => {
+        console.log(data)
         const response = await fetchAPI({url: 'http://localhost:3001/api/v1/user/profile', data: data});
         return response;
     }
@@ -34,6 +38,22 @@ export const authentificationSlice = createSlice({
     name: 'authentification',
     initialState,
     reducers: {
+        tokenCheckValidity: (state) => {
+            /*console.log(state.token || localStorage.getItem('token'))
+            if(state.token || localStorage.getItem('token'))
+            {
+                const token = state.token ? state.token : localStorage.getItem('token')
+                console.log(token)
+                useDispatch(tokenVerifAsync({token: token}))
+            }
+            else
+            {
+                state.tokenIsValid = false
+            }*/
+        },
+        tokenIsInvalid: (state) => {
+            state.tokenIsValid = false
+        }
         /*verifToken: (state, action) => {
             const tokenVerif = action.payload.token
 
@@ -45,40 +65,54 @@ export const authentificationSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(authentificationAsync.pending, (state) => {
-            state.status = Status.WAIT;
+            state.status = Status.WAIT
         })
         .addCase(authentificationAsync.fulfilled, (state, action) => {
-            state.status = Status.IDLE;
-            state.token = action.payload.token;
+            state.status = Status.IDLE
+            state.token = action.payload.token
             state.error = null
 
             localStorage.setItem('token', action.payload.token)
 
-            state.redirect = true
+            state.tokenIsValid = true
         })
         .addCase(authentificationAsync.rejected, (state, action) => {
-            state.status = Status.IDLE;
+            state.status = Status.IDLE
             state.token = null
-            state.error = action.error.message;
+            state.error = action.error.message
+            state.tokenIsValid = false
         })
 
         .addCase(tokenVerifAsync.pending, (state) => {
             state.status = Status.LOGIN
         })
         .addCase(tokenVerifAsync.fulfilled, (state, action) => {
-            state.redirect = true
+            state.status = Status.IDLE
+            state.token = localStorage.getItem('token')
+            state.error = null
+
+            state.profile = action.payload.profile
+
+
+
+            state.tokenIsValid = true
         })
         .addCase(tokenVerifAsync.rejected, (state, action) => {
+            state.status = Status.IDLE
+            state.token = null
+            state.tokenIsValid = false
 
+            localStorage.removeItem('token')
         })
     },
 });
 
-//export const { verifToken } = authentificationSlice.actions;
+export const { tokenIsInvalid, tokenCheckValidity } = authentificationSlice.actions;
 
 export const errorLogin = (state) => state.authentification.error;
 export const Loading = (state) => state.authentification.status;
 export const Token = (state) => state.authentification.token;
-export const Redirect_Page = (state) => state.authentification.redirect;
+export const TokenIsValid = (state) => state.authentification.tokenIsValid;
+export const Profile = (state) => state.authentification.profile;
 
 export default authentificationSlice.reducer;

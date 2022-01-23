@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { Redirect_Page, Loading, errorLogin, authentificationAsync, tokenVerifAsync } from '../../features/authentification/authentificationSlice';
+import { Loading, errorLogin, authentificationAsync, tokenVerifAsync } from '../../features/authentification/authentificationSlice';
 import * as Status from '../../features/authentification/authentificationStatus';
+import checkToken from '../../services/CheckToken'
 
 import Nav from '../Nav'
 import Footer from '../Footer'
@@ -18,7 +19,6 @@ export default function Login() {
 
     const dispatch = useDispatch();
 
-    const redirect = useSelector(Redirect_Page);
     const loading = useSelector(Loading);
     const error_login = useSelector(errorLogin);
 
@@ -33,16 +33,14 @@ export default function Login() {
 
         if(localStorage.getItem('mail') !== null)
         {
+            setRemember(true)
             setLogin(login => ({ ...login, email: localStorage.getItem('mail') }))
         }
     }, [])
 
 
-    useEffect(() => {
-
-        if (redirect) { history.push("/"); }
-
-    }, [redirect])
+    checkToken({redirect: '/profile', trigger: true})
+    
 
 
     function Login(e) {
@@ -82,7 +80,7 @@ export default function Login() {
                                 />
                             </div>
                             <div className="input-remember">
-                                <input type="checkbox" id="remember-me" 
+                                <input type="checkbox" id="remember-me" checked={remember}
                                     onChange={(e) => setRemember(e.target.checked)}
                                 /><label htmlFor="remember-me">Remember me</label>
                             </div>

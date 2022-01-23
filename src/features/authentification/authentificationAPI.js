@@ -39,9 +39,10 @@ export function fetchAPI({url = 'http://localhost', method = "POST" , data = {}}
                 }  
             })
             .then((response) => {
+                console.log(response)
                 setTimeout(function(){
-                    resolve({ token: response.body.token })
-                },2000)
+                    resolve({ token: response.body.token, profile: response.body })
+                },500)
             })
         .catch((error) => {
             reject(error)

@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Nav from '../Nav'
 import Footer from '../Footer'
+import Loader from '../../Component/Loader'
 
 import './index.css';
 
@@ -9,12 +11,22 @@ import icon_chat from '../img/icon-chat.png'
 import icon_money from '../img/icon-money.png'
 import icon_security from '../img/icon-security.png'
 
+import { Loading } from '../../features/authentification/authentificationSlice';
+import * as Status from '../../features/authentification/authentificationStatus';
+import checkToken from '../../services/CheckToken'
 
-class Home extends React.Component {  
+
+export default function Home() {
     
-    render() {
-        return (
-            <div className="App">
+    const loading = useSelector(Loading);
+
+    checkToken({redirect: '/', trigger: false})
+
+    return (
+        <div className="App">
+            { loading === Status.LOGIN  
+                ? <Loader/>
+                : <>
                 <Nav />
                 <main>
                     <div className="hero">
@@ -62,8 +74,8 @@ class Home extends React.Component {
                     </section>
                 </main>
                 <Footer />
-            </div>
-        )};
+                </>
+            }
+        </div>
+    );
 }
-
-export default Home;

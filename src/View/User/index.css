@@ -45,6 +45,34 @@
     font-weight: bold;
     padding: 10px;
   }
+
+  .edition-flex-column
+  {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .edition-flex
+  {
+    display: flex;
+    justify-content: center;
+  }
+
+  .edition-flex *
+  {
+    padding: 5px;
+  }
+
+  .modification-button
+  {
+    border-color: #00bc77;
+    background-color: white;
+    color: #00bc77;
+    font-weight: bold;
+    width: 100px;
+    border-style: solid;
+  }
   
   .header {
     color: #fff;

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from '../Nav'
 import Footer from '../Footer'
@@ -7,16 +7,25 @@ import Loader from '../../Component/Loader'
 
 import './index.css';
 
-import { Profile, Loading } from '../../features/authentification/authentificationSlice';
+import { Token, Profile, Loading, modificationAsync } from '../../features/authentification/authentificationSlice';
 import * as Status from '../../features/authentification/authentificationStatus';
 import checkToken from '../../services/CheckToken'
 
 export default function User() {  
 
+    const [ toggleEditName, setToggleEditName ] = useState(false)
+
+    const dispatch = useDispatch();
+    const token = useSelector(Token);
+
     const User = useSelector(Profile);
     const loading = useSelector(Loading);
 
     checkToken({redirect: '/login', trigger: false})
+
+    const editName = function() {
+
+    }
 
     return (
         <div className="App">
@@ -26,8 +35,33 @@ export default function User() {
             <Nav />
             <main className="main bg-dark">
                 <div className="header">
-                    <h1>Welcome back<br />{User ? User.firstName : ''} {User ? User.lastName : ''}!</h1>
-                    <button className="edit-button">Edit Name</button>
+                    <h1>Welcome back<br />{User && !toggleEditName ? User.firstName + ' ' + User.lastName + '!': ''}</h1>
+                    {
+                        !toggleEditName
+                        ? <>
+                            <button className="edit-button" onClick={() => setToggleEditName(true)}>Edit Name</button>
+                        </>
+                        : <>
+                            <div className='edition-flex-column'>
+                                <div className='edition-flex'>
+                                    <div>
+                                        <input type='text' placeholder={User ? User.firstName : ''}/>
+                                    </div>
+                                    <div>
+                                        <input type='text' placeholder={User ? User.lastName : ''}/>
+                                    </div>
+                                </div>
+                                <div className='edition-flex'>
+                                    <div>
+                                        <button className="modification-button" onClick={() => dispatch(modificationAsync({token: token,lastName: "Jacques", firstName: "Antony"}))}>Save</button>
+                                    </div>
+                                    <div>
+                                        <button className="modification-button" onClick={() => setToggleEditName(false)}>Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    }
                 </div>
                 <h2 className="sr-only">Accounts</h2>
                 <section className="account">

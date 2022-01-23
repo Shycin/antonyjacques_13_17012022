@@ -33,6 +33,15 @@ export const tokenVerifAsync = createAsyncThunk(
 );
 
 
+export const modificationAsync = createAsyncThunk(
+    'modification/fetchAPI',
+    async (data) => {
+        const response = await fetchAPI({method: 'PUT', url: 'http://localhost:3001/api/v1/user/profile', data: data});
+        return response;
+    }
+);
+
+
 
 export const authentificationSlice = createSlice({
     name: 'authentification',
@@ -83,6 +92,7 @@ export const authentificationSlice = createSlice({
             state.tokenIsValid = false
         })
 
+
         .addCase(tokenVerifAsync.pending, (state) => {
             state.status = Status.LOGIN
         })
@@ -103,6 +113,18 @@ export const authentificationSlice = createSlice({
             state.tokenIsValid = false
 
             localStorage.removeItem('token')
+        })
+
+
+
+        .addCase(modificationAsync.pending, (state) => {
+            console.log('modif pending')
+        })
+        .addCase(modificationAsync.fulfilled, (state, action) => {
+            console.log('modif fulfilled', action)
+        })
+        .addCase(modificationAsync.rejected, (state, action) => {
+            console.log('modif rejected', action)
         })
     },
 });

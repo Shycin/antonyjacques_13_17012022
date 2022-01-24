@@ -71,6 +71,8 @@ export const authentificationSlice = createSlice({
             state.tokenIsValid =  null
 
             state.profile =  null
+
+            localStorage.removeItem('token')
         }
         /*verifToken: (state, action) => {
             const tokenVerif = action.payload.token

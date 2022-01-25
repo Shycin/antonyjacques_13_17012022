@@ -1,3 +1,15 @@
+## Prerequisite
+
+### First install the node server
+
+- [NodeJS (**version 14.17.6**)](https://nodejs.org/en/)
+
+``See how install and start node server for the API here :``
+[Server for the API](https://github.com/Shycin/antonyjacques_13_17012022-API)
+
+When you are start the node server you can continu to install the App.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts

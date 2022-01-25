@@ -7,9 +7,9 @@ import Loader from '../../Component/Loader'
 
 import './index.css';
 
-import icon_chat from '../img/icon-chat.png'
-import icon_money from '../img/icon-money.png'
-import icon_security from '../img/icon-security.png'
+import icon_chat from '../../assets/img/icon-chat.png'
+import icon_money from '../../assets/img/icon-money.png'
+import icon_security from '../../assets/img/icon-security.png'
 
 import { Loading } from '../../features/authentification/authentificationSlice';
 import * as Status from '../../features/authentification/authentificationStatus';

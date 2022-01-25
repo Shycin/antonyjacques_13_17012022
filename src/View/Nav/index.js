@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle,faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 import './index.css';
-import logo from '../img/argentBankLogo.png'
+import logo from '../../assets/img/argentBankLogo.png'
 
 import { logout, Token, Profile } from '../../features/authentification/authentificationSlice';
 

@@ -13,12 +13,9 @@ const CheckToken = function ({redirect = '/', trigger = false}) {
     const history = useHistory();
 
     useEffect(() => { 
-        console.log(currentToken, localStorage.getItem('token'))
         if(currentToken || localStorage.getItem('token'))
         {
-            console.log(currentToken)
             const token = currentToken ? currentToken : localStorage.getItem('token')
-            console.log(token)
             dispatch(tokenVerifAsync({token: token}))
         }
         else

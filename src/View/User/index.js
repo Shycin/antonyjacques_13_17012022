@@ -22,11 +22,18 @@ export default function User() {
     checkToken({redirect: '/login', trigger: false})
 
     const [ toggleEditName, setToggleEditName ] = useState(false)
-    const [ name, setName] = useState({firstName: null, lastName: null})
+    const [ name, setName ] = useState({firstName: null, lastName: null})
+    const [ waitDispactch, setWaitDispatch ] = useState(false)
 
     useEffect(() => {
         if(User)
         setName(name => ({...name, firstName:User.firstName, lastName: User.lastName}))
+
+        if(User && waitDispactch)
+        {
+            setWaitDispatch(false)
+            setToggleEditName(false)
+        }
     }, [User])
 
     return (
@@ -55,7 +62,7 @@ export default function User() {
                                 </div>
                                 <div className='edition-flex'>
                                     <div>
-                                        <button className="modification-button" onClick={() => dispatch(modificationAsync({token: token,lastName: name.lastName, firstName: name.firstName}))}>Save</button>
+                                        <button className="modification-button" onClick={() => {setWaitDispatch(true); dispatch(modificationAsync({token: token,lastName: name.lastName, firstName: name.firstName}))}}>Save</button>
                                     </div>
                                     <div>
                                         <button className="modification-button" onClick={() => setToggleEditName(false)}>Cancel</button>

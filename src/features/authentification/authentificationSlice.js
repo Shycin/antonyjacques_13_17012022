@@ -26,7 +26,6 @@ export const authentificationAsync = createAsyncThunk(
 export const tokenVerifAsync = createAsyncThunk(
     'tokenVerif/fetchAPI',
     async (data) => {
-        console.log(data)
         const response = await fetchAPI({url: 'http://localhost:3001/api/v1/user/profile', data: data});
         return response;
     }
@@ -47,19 +46,6 @@ export const authentificationSlice = createSlice({
     name: 'authentification',
     initialState,
     reducers: {
-        tokenCheckValidity: (state) => {
-            /*console.log(state.token || localStorage.getItem('token'))
-            if(state.token || localStorage.getItem('token'))
-            {
-                const token = state.token ? state.token : localStorage.getItem('token')
-                console.log(token)
-                useDispatch(tokenVerifAsync({token: token}))
-            }
-            else
-            {
-                state.tokenIsValid = false
-            }*/
-        },
         tokenIsInvalid: (state) => {
             state.tokenIsValid = false
         },
@@ -74,13 +60,6 @@ export const authentificationSlice = createSlice({
 
             localStorage.removeItem('token')
         }
-        /*verifToken: (state, action) => {
-            const tokenVerif = action.payload.token
-
-            console.log(tokenVerif)
-            state.status = Status.LOGIN;
-            tokenVerifAsync({token: tokenVerif})
-        },*/
     },
     extraReducers: (builder) => {
         builder
@@ -129,19 +108,13 @@ export const authentificationSlice = createSlice({
 
 
         .addCase(modificationAsync.pending, (state) => {
-            console.log('modif pending')
-
             state.status = Status.WAIT
         })
         .addCase(modificationAsync.fulfilled, (state, action) => {
-            console.log('modif fulfilled', action)
-
             state.status = Status.IDLE
             state.profile = action.payload.profile
         })
         .addCase(modificationAsync.rejected, (state, action) => {
-            console.log('modif rejected', action)
-
             state.status = Status.IDLE
         })
     },

@@ -57,7 +57,7 @@ export default function Login() {
 
     return (
     <>
-        { loading === Status.LOGIN  
+        { loading === Status.LOGIN || loading === Status.WAIT
             ? <Loader/>
             : <div className="App">
                 <Nav />

@@ -47,6 +47,7 @@ export const authentificationSlice = createSlice({
     initialState,
     reducers: {
         tokenIsInvalid: (state) => {
+            state.status = Status.IDLE
             state.tokenIsValid = false
         },
         logout: (state) => {

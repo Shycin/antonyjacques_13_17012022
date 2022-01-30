@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "user":"61f191b028facc5244e2c50d",
+        "title": "Argent Bank Credit Card",
+        "account": 8349,
+        "ammount": 184.3,
+        "description": "Current Balance"
+    },
+    {
+        "id": 2,
+        "user":"61f191af28facc5244e2c50b",
+        "title": "Argent Bank Savings",
+        "account": 6712,
+        "ammount": 10928.42,
+        "description": "Available Balance"
+    },
+    {
+        "id": 3,
+        "user":"61f191b028facc5244e2c50d",
+        "title": "Argent Bank Checking",
+        "account": 8349,
+        "ammount": 2082.79,
+        "description": "Available Balance"
+    }
+]

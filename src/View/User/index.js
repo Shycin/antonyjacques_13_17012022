@@ -4,11 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import Nav from '../Nav'
 import Footer from '../Footer'
 import Loader from '../../Component/Loader'
+import ItemTransaction from '../../Component/ItemTransaction'
 
 import './index.css';
 
 import { Token, Profile, Loading, modificationAsync } from '../../features/authentification/authentificationSlice';
+import { Loading as Loading_account, userAccount, accountAsync } from '../../features/account/accountSlice';
+
 import * as Status from '../../features/authentification/authentificationStatus';
+import * as Status_account from '../../features/account/accountStatus';
 import checkToken from '../../services/CheckToken'
 
 export default function User() {  
@@ -16,8 +20,16 @@ export default function User() {
     const dispatch = useDispatch();
     const token = useSelector(Token);
 
+
+    // user data
     const User = useSelector(Profile);
     const loading = useSelector(Loading);
+
+
+    // account load 
+    const User_account = useSelector(userAccount);
+    const loading_account = useSelector(Loading_account);
+
 
     checkToken({redirect: '/login', trigger: false})
 
@@ -25,9 +37,14 @@ export default function User() {
     const [ name, setName ] = useState({firstName: null, lastName: null})
     const [ waitDispactch, setWaitDispatch ] = useState(false)
 
+
     useEffect(() => {
         if(User)
-        setName(name => ({...name, firstName:User.firstName, lastName: User.lastName}))
+        {
+            dispatch(accountAsync({userID: User.id}))
+            setName(name => ({...name, firstName:User.firstName, lastName: User.lastName}))
+        }
+        
 
         if(User && waitDispactch)
         {
@@ -38,7 +55,7 @@ export default function User() {
 
     return (
         <div className="App">
-        { loading === Status.LOGIN  
+        { loading === Status.LOGIN || loading === Status.WAIT || !token
             ? <Loader/>
             : <>
             <Nav />
@@ -73,36 +90,19 @@ export default function User() {
                     }
                 </div>
                 <h2 className="sr-only">Accounts</h2>
-                <section className="account">
-                    <div className="account-content-wrapper">
-                    <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-                    <p className="account-amount">$2,082.79</p>
-                    <p className="account-amount-description">Available Balance</p>
-                    </div>
-                    <div className="account-content-wrapper cta">
-                    <button className="transaction-button">View transactions</button>
-                    </div>
-                </section>
-                <section className="account">
-                    <div className="account-content-wrapper">
-                    <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-                    <p className="account-amount">$10,928.42</p>
-                    <p className="account-amount-description">Available Balance</p>
-                    </div>
-                    <div className="account-content-wrapper cta">
-                    <button className="transaction-button">View transactions</button>
-                    </div>
-                </section>
-                <section className="account">
-                    <div className="account-content-wrapper">
-                    <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-                    <p className="account-amount">$184.30</p>
-                    <p className="account-amount-description">Current Balance</p>
-                    </div>
-                    <div className="account-content-wrapper cta">
-                    <button className="transaction-button">View transactions</button>
-                    </div>
-                </section>
+                {
+                    loading_account === Status_account.INIT || !User_account
+                    ? <Loader />
+                    : User_account.map((element,index) => {
+                        return <ItemTransaction
+                            key={index}
+                            title={element.title}
+                            account={element.account}
+                            amount={element.ammount}
+                            description={element.description}
+                        />
+                    })
+                }
             </main>
             <Footer />
             </>

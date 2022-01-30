@@ -8,7 +8,7 @@ import './index.css';
 import logo from '../../assets/img/argentBankLogo.png'
 
 import { logout, Token, Profile } from '../../features/authentification/authentificationSlice';
-
+import { logout as logout_account } from '../../features/account/accountSlice';
 
 
 export default function Nav() {
@@ -39,7 +39,7 @@ export default function Nav() {
                 }
                 {
                     Login 
-                    ? <Link to="/" className="main-nav-item" onClick={() => dispatch(logout())}>
+                    ? <Link to="/" className="main-nav-item" onClick={() => {dispatch(logout()); dispatch(logout_account()) }}>
                         <FontAwesomeIcon icon={faSignOutAlt} />
                         Sign Out
                     </Link>
